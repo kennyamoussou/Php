@@ -1,27 +1,6 @@
 <?php
-
-$recettes = [
-    [
-        'titre' => 'Cassoulet',
-        'recette' => 'Etape 1 : des flageolets !',
-        'auteur' => 'mickael.andrieu@exemple.com',
-        'est_actif' => true,
-    ],
-
-    [
-        'titre' => 'Couscous',
-        'recette' => 'Etape 1 : de la semoule',
-        'auteur' => 'mickael.andrieu@exemple.com',
-        'est_actif' => false,
-    ],
-
-    [
-        'titre' => 'Escalope milanaise',
-        'recette' => 'Etape 1 : prenez une belle escalope',
-        'auteur' => 'mathieu.nebra@exemple.com',
-        'est_actif' => true,
-    ],
-];
+require_once(__DIR__ . '/variable.php');
+require_once(__DIR__ . '/fonction.php');
 ?>
 
 <!DOCTYPE html>
@@ -29,41 +8,40 @@ $recettes = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <titre>Affichage des recettes</titre>
+    <title>Affichage des recettes</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>
-        Affichage des recettes
-    </h1>
-
-    <?php foreach ($recettes as $recette): ?>
-
-        <?php if (($recette['est_actif'] ?? false) === true): ?>
-
-            <article>
-                <h2>
-                    <?php 
-                        echo $recette['titre']; 
-                    ?>
-                </h2>
-
-                <div>
-                    <?php 
-                        echo $recette['recette']; 
-                    ?>
-                </div>
-
-                <i>
-                    <?php 
-                        echo $recette['auteur']; 
-                    ?>
-                </i>
-            </article>
-
-        <?php endif; ?>
+<body class="d-flex flex-column min-vh-100">
     
-    <?php endforeach; ?>
-       
+    <div class="container">
+        <!-- inclusion de l'entete de page du site -->
+        <?php require_once __DIR__ . '/entete_de_page.php'; ?>
+
+        <main>
+            <h1>
+                Affichage des recettes
+            </h1>
+
+            <?php foreach (obtenirRecettes($recettes) as $recette) { ?>
+                <article>
+                    <h2>
+                        <?php echo ($recette['titre']) ?>
+                    </h2>
+                    <p>
+                        <?php echo ($recette['recette']) ?>
+                    </p>
+                    <i>
+                        <?php echo (afficherAuteur($recette['auteur'], $utilisateurs)) ?>
+                    </i>
+                </article>
+            <?php } ?>
+        </main>
+    
+    </div>
+    
+    <!-- inclusion du bas de page du site -->
+    <?php require_once __DIR__ . '/pied_de_page.php'; ?>
 
 </body>
 </html>
